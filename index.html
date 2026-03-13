@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Gereja Mulyosari — Mulyosari Yess!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold:       #C8A96E;
+      --gold-light: #E8D5A8;
+      --cream:      #FAF6EF;
+      --deep:       #1A1208;
+      --brown:      #5C3D1E;
+      --warm:       #F0E6D0;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ── ONE SCREEN, NO SCROLL ──────────────── */
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--deep);
+    }
+
+    /* Grain texture */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 999; opacity: 0.55;
+    }
+
+    /* ── MAIN WRAPPER ───────────────────────── */
+    .page {
+      width: 100%; height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding:
+        max(env(safe-area-inset-top), 0.9rem)
+        1.25rem
+        max(env(safe-area-inset-bottom), 0.9rem);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Radial glow */
+    .page::before {
+      content: '';
+      position: absolute; top: -20%; left: 50%;
+      transform: translateX(-50%);
+      width: min(600px, 130vw); height: min(600px, 130vw);
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(200,169,110,0.16) 0%, transparent 68%);
+      pointer-events: none;
+    }
+
+    /* Cross watermark */
+    .cross {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.13; pointer-events: none;
+    }
+    .cross svg { width: min(480px, 90vw); height: min(480px, 90vw); }
+
+    /* ── TOP: LOGO + IDENTITY ───────────────── */
+    .top {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 0.28rem;
+      animation: fadeInDown 0.8s ease both;
+      flex-shrink: 0;
+    }
+
+    .logo-wrap {
+      width: clamp(64px, 15vw, 86px);
+      height: clamp(64px, 15vw, 86px);
+      border-radius: 50%;
+      background: var(--warm);
+      border: 2px solid var(--gold);
+      box-shadow: 0 4px 22px rgba(200,169,110,0.28), 0 0 0 4px rgba(200,169,110,0.1);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; flex-shrink: 0;
+    }
+    .logo-wrap img { width: 100%; height: 100%; object-fit: contain; }
+    .logo-placeholder {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 3px; color: var(--gold);
+      font-size: 0.5rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase; text-align: center;
+    }
+    .logo-placeholder svg { width: 26px; height: 26px; opacity: 0.7; }
+
+    .denomination {
+      font-size: clamp(0.54rem, 1.8vw, 0.66rem);
+      font-weight: 500; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--brown); opacity: 0.6;
+    }
+
+    .deco-h {
+      width: 56px; height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+
+    .church-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.45rem, 5.5vw, 2.7rem);
+      font-weight: 900; line-height: 1.1;
+      text-align: center; letter-spacing: -0.01em;
+    }
+    .church-title span { color: var(--gold); }
+
+    /* ── MIDDLE: TAGLINE + CLICKBAIT ────────── */
+    .middle {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 0.4rem;
+      animation: fadeIn 0.9s ease 0.2s both;
+      flex-shrink: 0;
+    }
+
+    .tagline {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(0.9rem, 3.5vw, 1.2rem);
+      color: var(--gold); text-align: center;
+    }
+    .tagline-sub {
+      font-size: clamp(0.58rem, 1.9vw, 0.68rem);
+      color: var(--brown); opacity: 0.52;
+      letter-spacing: 0.12em; text-transform: uppercase; text-align: center;
+    }
+
+    .deco-v {
+      width: 1px; height: clamp(22px, 4vh, 38px);
+      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    }
+
+    .clickbait {
+      background: linear-gradient(135deg, var(--deep) 0%, var(--brown) 100%);
+      color: var(--gold-light);
+      padding: clamp(0.55rem, 1.8vh, 0.8rem) clamp(1rem, 4vw, 1.4rem);
+      border-radius: 8px;
+      font-size: clamp(0.7rem, 2.1vw, 0.8rem);
+      font-weight: 500; text-align: center;
+      width: min(100%, 330px);
+      line-height: 1.48;
+      box-shadow: 0 5px 20px rgba(26,18,8,0.16);
+      border: 1px solid rgba(200,169,110,0.26);
+    }
+    .clickbait strong {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(0.78rem, 2.4vw, 0.9rem);
+      color: var(--gold); margin-bottom: 0.18rem;
+    }
+
+    /* ── BOTTOM: LINK CARDS ─────────────────── */
+    .cards {
+      display: flex; flex-direction: column;
+      gap: clamp(0.45rem, 1.4vh, 0.7rem);
+      width: min(100%, 400px);
+      animation: fadeInUp 0.9s ease 0.35s both;
+      flex-shrink: 0;
+    }
+
+    .link-card {
+      display: flex; align-items: center;
+      gap: clamp(0.7rem, 2.5vw, 1rem);
+      text-decoration: none;
+      background: white;
+      border: 1px solid rgba(200,169,110,0.2);
+      border-radius: 10px;
+      padding: clamp(0.65rem, 1.9vh, 0.95rem) clamp(0.85rem, 3vw, 1.15rem);
+      box-shadow: 0 2px 12px rgba(26,18,8,0.055);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      position: relative; overflow: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .link-card::before {
+      content: ''; position: absolute;
+      left: 0; top: 0; bottom: 0; width: 3px;
+      background: var(--gold);
+      transform: scaleY(0);
+      transition: transform 0.2s ease;
+    }
+    .link-card:hover, .link-card:active {
+      transform: translateY(-2px);
+      box-shadow: 0 7px 24px rgba(26,18,8,0.1);
+      border-color: rgba(200,169,110,0.42);
+    }
+    .link-card:hover::before, .link-card:active::before { transform: scaleY(1); }
+    .link-card:hover .arrow, .link-card:active .arrow { transform: translateX(4px); }
+
+    .card-icon {
+      width: clamp(36px, 9vw, 42px); height: clamp(36px, 9vw, 42px);
+      background: var(--warm); border-radius: 50%;
+      border: 1px solid rgba(200,169,110,0.26);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .card-icon svg { width: 17px; height: 17px; color: var(--gold); }
+
+    .card-text { flex: 1; min-width: 0; }
+    .card-label {
+      font-size: clamp(0.48rem, 1.5vw, 0.56rem);
+      font-weight: 600; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--brown); opacity: 0.48;
+    }
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(0.92rem, 2.8vw, 1.02rem);
+      font-weight: 700; color: var(--deep);
+    }
+    .card-desc {
+      font-size: clamp(0.62rem, 1.8vw, 0.7rem);
+      color: var(--brown); opacity: 0.55; margin-top: 0.08rem; line-height: 1.3;
+    }
+    .badge {
+      display: inline-block; background: var(--gold); color: var(--deep);
+      font-size: 0.48rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 1px 6px; border-radius: 20px; margin-top: 0.18rem;
+    }
+    .arrow {
+      color: var(--gold); opacity: 0.48; flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    /* ── FOOTER ─────────────────────────────── */
+    .footer-txt {
+      font-size: clamp(0.52rem, 1.5vw, 0.6rem);
+      color: var(--brown); opacity: 0.32;
+      letter-spacing: 0.1em; text-transform: uppercase; text-align: center;
+      flex-shrink: 0;
+      animation: fadeIn 1s ease 0.5s both;
+    }
+
+    /* ── ANIMATIONS ─────────────────────────── */
+    @keyframes fadeIn     { from{opacity:0} to{opacity:1} }
+    @keyframes fadeInUp   { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeInDown { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:translateY(0)} }
+
+    /* Touch: no sticky hover */
+    @media (hover: none) {
+      .link-card:hover { transform: none; box-shadow: 0 2px 12px rgba(26,18,8,0.055); border-color: rgba(200,169,110,0.2); }
+      .link-card:active { transform: translateY(-2px); }
+    }
+
+    /* Landscape phones — hide deco-v & clickbait to save space */
+    @media (max-height: 480px) {
+      .deco-v, .clickbait { display: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Cross watermark -->
+  <div class="cross">
+    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="85" y="10" width="30" height="180" rx="4" fill="#5C3D1E"/>
+      <rect x="10" y="65" width="180" height="30" rx="4" fill="#5C3D1E"/>
+    </svg>
+  </div>
+
+  <!-- ① Logo + Nama Gereja -->
+  <div class="top">
+    <div class="logo-wrap">
+      <!-- Ganti dengan: <img src="logo-gereja.png" alt="Logo Gereja"> -->
+      <div class="logo-placeholder">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="21" y="4" width="6" height="32" rx="2" fill="currentColor"/>
+          <rect x="8" y="14" width="32" height="6" rx="2" fill="currentColor"/>
+          <path d="M12 36L24 44L36 36" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Logo<br>Gereja</span>
+      </div>
+    </div>
+    <div class="denomination">Gereja Kristen</div>
+    <div class="deco-h"></div>
+    <h1 class="church-title">Gereja <span>Mulyosari</span></h1>
+  </div>
+
+  <!-- ② Tagline + Clickbait -->
+  <div class="middle">
+    <p class="tagline">"Mulyosari Yess!"</p>
+    <p class="tagline-sub">Bersama · Bertumbuh · Bersukacita</p>
+    <div class="deco-v"></div>
+    <div class="clickbait">
+      <strong>✨ Minggu ini ada yang spesial!</strong>
+      Jangan ketinggalan warta & jadwal ibadah penuh berkat. Klik sekarang! 👇
+    </div>
+  </div>
+
+  <!-- ③ Link Cards -->
+  <div class="cards">
+
+    <a href="LINK_WARTA_JEMAAT_DISINI" class="link-card" target="_blank" rel="noopener">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+      </div>
+      <div class="card-text">
+        <div class="card-label">Dokumen Mingguan</div>
+        <div class="card-title">Warta Jemaat</div>
+        <div class="card-desc">Pengumuman & informasi terkini jemaat</div>
+        <span class="badge">Baru Minggu Ini</span>
+      </div>
+      <div class="arrow">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </div>
+    </a>
+
+    <a href="LINK_TATA_IBADAH_DISINI" class="link-card" target="_blank" rel="noopener">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          <line x1="9" y1="8" x2="15" y2="8"/>
+          <line x1="9" y1="12" x2="15" y2="12"/>
+        </svg>
+      </div>
+      <div class="card-text">
+        <div class="card-label">Panduan Ibadah</div>
+        <div class="card-title">Tata Ibadah</div>
+        <div class="card-desc">Urutan liturgi & alur ibadah hari ini</div>
+        <span class="badge">Siap Diunduh</span>
+      </div>
+      <div class="arrow">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- ④ Footer -->
+  <p class="footer-txt">Gereja Mulyosari &nbsp;·&nbsp; Mulyosari Yess! &nbsp;·&nbsp; Soli Deo Gloria</p>
+
+</div>
+</body>
+</html>
